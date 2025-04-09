@@ -48,11 +48,7 @@ controller:
                       containers:
                         - name: "jnlp"
                           image: "jenkins/inbound-agent:latest"
-                          args: "${computer.jnlpmac} ${computer.name}"
+                          args: "\${computer.jnlpmac} \${computer.name}"
                           ttyEnabled: true
                           resourceRequestCpu: "200m"
                           resourceRequestMemory: "512Mi"
-
-  initScripts:
-    seed-job: |
-      ${fileContents('jenkins/init-groovy/seed.groovy')}

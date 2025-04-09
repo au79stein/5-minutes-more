@@ -4,4 +4,5 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT NOT NULL
 );
 
--- Add any additional init statements here
+INSERT INTO users (username, email) VALUES ('admin', 'admin@example.com')
+ON CONFLICT DO NOTHING;
