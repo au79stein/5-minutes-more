@@ -2,8 +2,8 @@
 
 ## File Hierarchy
 
-tree eks-deploy/
-eks-deploy/
+```
+./eks-deploy/
 ├── ingress
 │   └── jenkins-ingress.yaml
 ├── jenkins
@@ -16,5 +16,4 @@ eks-deploy/
     └── values.yaml
 
 5 directories, 5 files
-
-
+```
