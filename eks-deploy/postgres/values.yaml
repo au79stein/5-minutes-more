@@ -1,0 +1,16 @@
+auth:
+  existingSecret: postgres-secret
+  secretKeys:
+    user: postgres-user
+    password: postgres-password
+    database: postgres-db
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: gp2
+    size: 8Gi
+
+  initdbScripts:
+    init.sql: |
+      ${fileContents('postgres/init-sql/init.sql')}

@@ -2,18 +2,19 @@
 
 ## File Hierarchy
 
+tree eks-deploy/
 eks-deploy/
-├── deploy.sh
-├── jenkins/
-│   ├── secret.yaml
-│   ├── values.yaml
-│   ├── init-groovy/
-│   │   └── seed.groovy
-├── postgres/
-│   ├── secret.yaml
-│   ├── values.yaml
-│   └── init-sql/
-│       └── init.sql
-├── ingress/
-│   ├── jenkins-ingress.yaml
+├── ingress
+│   └── jenkins-ingress.yaml
+├── jenkins
+│   ├── init-groovy
+│   │   └── seed.groovy
+│   └── values.yaml
+└── postgres
+    ├── init-sql
+    │   └── init.sql
+    └── values.yaml
+
+5 directories, 5 files
+
 
