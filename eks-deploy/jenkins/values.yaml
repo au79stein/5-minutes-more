@@ -26,29 +26,30 @@ controller:
 
   persistence:
     enabled: true
-    storageClass: gp2
+    storageClassName: ebs-csi-sc
     size: 10Gi
+    existingClaim: ""
 
   JCasC:
     enabled: true
     configScripts:
-      kubernetes-agent:
-        inline: |
-          jenkins:
-            clouds:
-              - kubernetes:
-                  name: "eks"
-                  namespace: "jenkins"
-                  jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
-                  jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
-                  containerCapStr: "10"
-                  templates:
-                    - name: "default"
-                      label: "jenkins-agent"
-                      containers:
-                        - name: "jnlp"
-                          image: "jenkins/inbound-agent:latest"
-                          args: "\${computer.jnlpmac} \${computer.name}"
-                          ttyEnabled: true
-                          resourceRequestCpu: "200m"
-                          resourceRequestMemory: "512Mi"
+      kubernetes-agent: |
+        jenkins:
+          clouds:
+            - kubernetes:
+                name: "eks"
+                namespace: "jenkins"
+                jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+                jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                containerCapStr: "10"
+                templates:
+                  - name: "default"
+                    label: "jenkins-agent"
+                    containers:
+                      - name: "jnlp"
+                        image: "jenkins/inbound-agent:latest"
+                        args: "\${computer.jnlpmac} \${computer.name}"
+                        ttyEnabled: true
+                        resourceRequestCpu: "200m"
+                        resourceRequestMemory: "512Mi"
+

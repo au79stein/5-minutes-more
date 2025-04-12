@@ -420,6 +420,8 @@ build-iPhoneSimulator/
 # Recycle bin
 \#recycle
 ### Terraform ###
+# RG:2025-04-09 adding the lock because I don't think I want this here
+.terraform.lock.hcl
 # Local .terraform directories
 **/.terraform/*
 # .tfstate files
