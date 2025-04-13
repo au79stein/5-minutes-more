@@ -19,18 +19,16 @@ controller:
     hostName: jenkins.example.com
     path: /
     pathType: Prefix
-    # tls:
-    #   - hosts:
-    #       - jenkins.example.com
-    #     secretName: jenkins-tls
+    tls:
+      - hosts:
+          - jenkins.example.com
+        secretName: jenkins-tls
 
   persistence:
     enabled: true
     storageClassName: ebs-csi-sc
     size: 10Gi
-
-  service:
-    type: ClusterIP
+    existingClaim: ""
 
   JCasC:
     enabled: true
@@ -50,7 +48,7 @@ controller:
                     containers:
                       - name: "jnlp"
                         image: "jenkins/inbound-agent:latest"
-                        args: '${computer.jnlpmac} \${computer.name}'
+                        args: "\${computer.jnlpmac} \${computer.name}"
                         ttyEnabled: true
                         resourceRequestCpu: "200m"
                         resourceRequestMemory: "512Mi"

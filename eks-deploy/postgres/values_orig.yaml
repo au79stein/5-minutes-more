@@ -8,7 +8,7 @@ auth:
 primary:
   persistence:
     enabled: true
-    storageClass: ebs-csi-sc
+    storageClass: gp2
     size: 8Gi
 
   initdbScripts:

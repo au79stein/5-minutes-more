@@ -18,4 +18,7 @@ spec:
                 name: jenkins
                 port:
                   number: 8080
-
+  tls:
+    - hosts:
+        - jenkins.example.com
+      secretName: jenkins-tls
