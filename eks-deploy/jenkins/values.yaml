@@ -12,6 +12,8 @@ controller:
     - git
     - blueocean
     - configuration-as-code
+    - jdbc
+    - postgresql
 
   ingress:
     enabled: true
@@ -54,4 +56,46 @@ controller:
                         ttyEnabled: true
                         resourceRequestCpu: "200m"
                         resourceRequestMemory: "512Mi"
+      job-dsl-script: |
+        jobs:
+          - script: >
+              pipelineJob('timestamp-recorder') {
+                description('Writes timestamp to PostgreSQL every 5 minutes')
+                triggers {
+                  cron('H/5 * * * *')
+                }
+                definition {
+                  cps {
+                    script("""
+                      pipeline {
+                        agent {
+                          kubernetes {
+                            label 'jenkins-agent'
+                            defaultContainer 'jnlp'
+                          }
+                        }
+                        environment {
+                          DB_HOST = "postgres-postgresql.postgres.svc.cluster.local"
+                          DB_NAME = "postgres"
+                          DB_USER = credentials('postgres-user')
+                          DB_PASS = credentials('postgres-password')
+                        }
+                        stages {
+                          stage('Write Timestamp') {
+                            steps {
+                              container('jnlp') {
+                                sh '''
+                                  apt-get update && apt-get install -y postgresql-client
+                                  PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "INSERT INTO users (username, email) VALUES ('timestamp', NOW()::text || '@job.local');"
+                                '''
+                              }
+                            }
+                          }
+                        }
+                      }
+                    """)
+                    sandbox(true)
+                  }
+                }
+              }
 
